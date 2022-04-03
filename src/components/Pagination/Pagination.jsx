@@ -1,9 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changePage, setCurrentPage } from "../../store/userSlice";
+import {
+  changePage,
+  firstPage,
+  lastPage,
+  nextPage,
+  prevPage,
+  setCurrentPage,
+} from "../../store/userSlice";
 
 function Pagination() {
   const perPageCount = useSelector((state) => state.perPageCount);
+  const currentPage = useSelector((state) => state.currentPage);
   const totalUsers = useSelector((state) => state.users.length);
   const dispatch = useDispatch();
 
@@ -16,18 +24,61 @@ function Pagination() {
     dispatch(changePage());
   }
   return (
-    <div>
-      <button>{"<<"}</button>
-      <button>{"<"}</button>
+    <div className='d-flex p-2 bd-highlight gap-3 align-self-center'>
+      <button
+        type='button'
+        className='btn btn-outline-primary'
+        onClick={() => {
+          dispatch(firstPage());
+          dispatch(changePage());
+        }}
+      >
+        {"<<"}
+      </button>
+      <button
+        type='button'
+        className='btn btn-outline-primary'
+        onClick={() => {
+          dispatch(prevPage());
+          dispatch(changePage());
+        }}
+      >
+        {"<"}
+      </button>
       {pages.map((page) => {
         return (
-          <button key={page} onClick={() => newPage(page)}>
+          <button
+            type='button'
+            className={`btn btn-outline-primary ${
+              currentPage === page ? "bg-primary text-white" : ""
+            }`}
+            key={page}
+            onClick={() => newPage(page)}
+          >
             {page}
           </button>
         );
       })}
-      <button>{">"}</button>
-      <button>{">>"}</button>
+      <button
+        type='button'
+        className='btn btn-outline-primary'
+        onClick={() => {
+          dispatch(nextPage());
+          dispatch(changePage());
+        }}
+      >
+        {">"}
+      </button>
+      <button
+        type='button'
+        className='btn btn-outline-primary'
+        onClick={() => {
+          dispatch(lastPage());
+          dispatch(changePage());
+        }}
+      >
+        {">>"}
+      </button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   changePage,
   deleteSelectedUsers,
@@ -10,20 +10,24 @@ import Pagination from "../Pagination/Pagination";
 import UserRow from "../UserRow/UserRow";
 
 function UsersTable() {
-  const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(false);
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-  console.log(selected);
   return (
-    <div>
-      <input type='text' name='search' id='search' />
-      <table>
+    <div className='container-sm d-flex flex-column gap-3 p-5'>
+      <input
+        type='text'
+        class='form-control'
+        name='search'
+        id='search'
+        placeholder='Search by mail, name or role'
+      />
+      <table class='table table-hover p-5'>
         <thead>
           <tr>
-            <th>
+            <th scope='col'>
               {" "}
               <input
                 type='checkbox'
@@ -36,20 +40,20 @@ function UsersTable() {
                 }}
               />{" "}
             </th>
-            <th>NAME</th>
-            <th>EMAIL</th>
-            <th>ROLE</th>
-            <th>ACTIONS</th>
+            <th scope='col'>NAME</th>
+            <th scope='col'>EMAIL</th>
+            <th scope='col'>ROLE</th>
+            <th scope='col'>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           <UserRow></UserRow>
         </tbody>
       </table>
-      <Pagination></Pagination>
-      <div>
+      <div className='d-flex p-2 bd-highlight gap-3'>
         <button
-          className=''
+          type='button'
+          class='btn btn-danger align-self-left'
           onClick={() => {
             dispatch(deleteSelectedUsers());
             dispatch(changePage());
@@ -58,6 +62,7 @@ function UsersTable() {
         >
           Delete Selected
         </button>
+        <Pagination></Pagination>
       </div>
     </div>
   );

@@ -84,7 +84,19 @@ const userSlice = createSlice({
           break;
         }
       }
-      console.log(payload);
+    },
+    nextPage: (state) => {
+      const totalPages = Math.ceil(state.users.length / state.perPageCount);
+      if (totalPages > state.currentPage) state.currentPage++;
+    },
+    prevPage: (state) => {
+      if (state.currentPage > 1) state.currentPage--;
+    },
+    firstPage: (state) => {
+      state.currentPage = 1;
+    },
+    lastPage: (state) => {
+      state.currentPage = Math.ceil(state.users.length / state.perPageCount);
     },
   },
   extraReducers: {
@@ -109,6 +121,10 @@ export const {
   changePage,
   deleteSingleUser,
   deleteSelectedUsers,
+  nextPage,
+  prevPage,
+  firstPage,
+  lastPage,
 } = userSlice.actions;
 
 export default userSlice.reducer;
